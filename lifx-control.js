@@ -6,7 +6,13 @@ module.exports = function lifx(options) {
     var LifxClient = require('node-lifx').Client;
     var client = new LifxClient();
     client.on('light-new', function(light) {
-        console.log(light);
+        console.log('discovered light id=' + light.id + ' label=' + light.label);
+    });
+    client.on('light-online', function(light) {
+        console.log('online light id=' + light.id + ' label=' + light.label);
+    });
+    client.on('light-offline', function(light) {
+        console.log('offline light id=' + light.id + ' label=' + light.label);
     });
 
     client.init({
@@ -16,7 +22,7 @@ module.exports = function lifx(options) {
     this.add({ role: role, cmd: 'light_on' }, function light_on(msg, respond) {
         var light = client.light(msg.id);
         if (light) {
-            console.log(light);
+            //console.log(light);
             light.on();
             respond(null, { answer: 'ok' });
         }
@@ -27,7 +33,7 @@ module.exports = function lifx(options) {
     this.add({ role: role, cmd: 'light_off' }, function light_on(msg, respond) {
         var light = client.light(msg.id);
         if (light) {
-            console.log(light);
+            //console.log(light);
             light.off();
             respond(null, { answer: 'ok' });
         }
@@ -35,13 +41,18 @@ module.exports = function lifx(options) {
             respond(null, { answer: 'not found' });
     });
 
-    this.add({role: role ,cmd:'lights'}, function list(msg, respond) {
+    this.add({ role: role, cmd: 'lights' }, function list(msg, respond) {
         var lights = client.lights();
         var data = [];
         for (var i = 0; i < lights.length; i++) {
             data.push({ id: lights[i].id, ip: lights[i].address, name: lights[i].label, status: lights[i].status });
         }
-        console.log(lights);
+        //console.log(lights);
         respond(null, { answer: data });
     });
+
+    return {
+        name: role
+    }
+
 }
