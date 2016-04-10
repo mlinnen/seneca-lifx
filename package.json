@@ -20,7 +20,7 @@
   "files": [
     "LICENSE.txt",
     "README.md",
-    "suncalculator.js"
+    "lifx-control.js"
   ],
   "contributors": [],
   "engines": {

@@ -8,10 +8,10 @@ This plugin will expose actions to control LIFX lights.
 
 ## Install
 Since Seneca and this service are built on top of [Node.js](https://nodejs.org) you will need to have it installed.
-This is not an actual node package yet so to use this right now clone the repository into a directoy of your choice and run the following:
+To install run the following:
 ```
 npm install seneca
-npm install
+npm install seneca-lifx
 ```
 
 ## Quick Example
@@ -19,7 +19,7 @@ Make sure you have already done the install steps to get the seneca and dependen
 
 ```
 var seneca = require('seneca')();
-seneca.use('lifx-control');
+seneca.use('seneca-lifx');
 
 function lighton() {
     console.log('Get a list of lights');
@@ -61,7 +61,6 @@ Turns off a light.
 ## Roadmap
 These are a few items I think this module could use to make it more useful.  I don't have any plans on
 when the following will be done or in what order.
-- Turn this into a real node package
 - Add support for setting the color of the lights
 - Track the up/down time of a LIFX bulb
 
