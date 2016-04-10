@@ -30,7 +30,6 @@
     "seneca": "*"
   },
   "dependencies": {
-    "bluebird": "^3.3.4",
     "node-lifx": "^0.5.1"
   }
 }
