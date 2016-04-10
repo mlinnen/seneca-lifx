@@ -1,12 +1,9 @@
-var Promise = require("bluebird");
-
 module.exports = function lifx(options) {
 
     var seneca = this;
     var role = options.role
 
     var LifxClient = require('node-lifx').Client;
-    Promise.promisifyAll(LifxClient);
 
     var client = new LifxClient();
     client.on('light-new', function(light) {
@@ -26,7 +23,6 @@ module.exports = function lifx(options) {
     this.add({ role: role, cmd: 'light_on' }, function light_on(msg, respond) {
         var light = client.light(msg.id);
         if (light) {
-            //console.log(light);
             light.on();
             respond(null, { answer: 'ok' });
         }
@@ -37,7 +33,6 @@ module.exports = function lifx(options) {
     this.add({ role: role, cmd: 'light_off' }, function light_on(msg, respond) {
         var light = client.light(msg.id);
         if (light) {
-            //console.log(light);
             light.off();
             respond(null, { answer: 'ok' });
         }
@@ -51,21 +46,26 @@ module.exports = function lifx(options) {
         for (var i = 0; i < lights.length; i++) {
             data.push({ id: lights[i].id, ip: lights[i].address, name: lights[i].label, status: lights[i].status });
         }
+        
+        // kick off the async series loop since the light.getState is an async operation and we need to collect the results of this befor returning
         series(lights.shift());
 
-        function series(item) {
-            if (item) {
-                item.getState(function(err, result) {
+        function series(light) {
+            if (light) {
+                light.getState(function(err, result) {
                     if (err) return final();
-                    var elementPos = data.map(function(x) { return x.name; }).indexOf(item.label);
+                    var elementPos = data.map(function(x) { return x.name; }).indexOf(light.label);
                     var objectFound = data[elementPos];
                     if (objectFound) {
                         objectFound.color = { 'hue': result.color.hue, 'saturation': result.color.saturation, 'brightness': result.color.brightness, 'kelvin': result.color.kelvin };
                         objectFound.power = result.power;
                     }
+                    
+                    // recursive call until we run out of lights in the array.
                     return series(lights.shift());
                 });
             } else {
+                // We are done with the list of lights
                 return final();
             }
         }

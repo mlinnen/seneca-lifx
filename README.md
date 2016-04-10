@@ -63,4 +63,5 @@ These are a few items I think this module could use to make it more useful.  I d
 when the following will be done or in what order.
 - Turn this into a real node package
 - Add support for setting the color of the lights
+- Track the up/down time of a LIFX bulb
 
