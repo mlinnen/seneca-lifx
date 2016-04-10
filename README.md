@@ -64,4 +64,5 @@ when the following will be done or in what order.
 - Add support for setting the color of the lights
 - Track the up/down time of a LIFX bulb
 - Add support for setting the label of a LIFX bulb
+- Add unit tests and enable the Travis CI tests and code coverage
 
