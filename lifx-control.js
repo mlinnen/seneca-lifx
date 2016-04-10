@@ -1,9 +1,13 @@
+var Promise = require("bluebird");
+
 module.exports = function lifx(options) {
 
     var seneca = this;
     var role = options.role
 
     var LifxClient = require('node-lifx').Client;
+    Promise.promisifyAll(LifxClient);
+
     var client = new LifxClient();
     client.on('light-new', function(light) {
         console.log('discovered light id=' + light.id + ' label=' + light.label);
@@ -47,12 +51,31 @@ module.exports = function lifx(options) {
         for (var i = 0; i < lights.length; i++) {
             data.push({ id: lights[i].id, ip: lights[i].address, name: lights[i].label, status: lights[i].status });
         }
-        //console.log(lights);
-        respond(null, { answer: data });
+        series(lights.shift());
+
+        function series(item) {
+            if (item) {
+                item.getState(function(err, result) {
+                    if (err) return final();
+                    var elementPos = data.map(function(x) { return x.name; }).indexOf(item.label);
+                    var objectFound = data[elementPos];
+                    if (objectFound) {
+                        objectFound.color = { 'hue': result.color.hue, 'saturation': result.color.saturation, 'brightness': result.color.brightness, 'kelvin': result.color.kelvin };
+                        objectFound.power = result.power;
+                    }
+                    return series(lights.shift());
+                });
+            } else {
+                return final();
+            }
+        }
+        function final() {
+            console.log('done ', data);
+            respond(null, { answer: data });
+        }
     });
 
     return {
         name: role
     }
-
 }

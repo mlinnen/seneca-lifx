@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-    "keywords": [
+  "keywords": [
     "seneca",
     "plugin",
     "lifx"
@@ -30,6 +30,7 @@
     "seneca": "*"
   },
   "dependencies": {
+    "bluebird": "^3.3.4",
     "node-lifx": "^0.5.1"
   }
 }
