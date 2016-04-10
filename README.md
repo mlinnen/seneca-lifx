@@ -62,6 +62,5 @@ Turns off a light.
 These are a few items I think this module could use to make it more useful.  I don't have any plans on
 when the following will be done or in what order.
 - Turn this into a real node package
-- Add support for returning the current power state and color settings of each light for the LIGHTS command
 - Add support for setting the color of the lights
 
