@@ -1,6 +1,6 @@
 {
   "name": "seneca-lifx",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A Seneca plugin for controlling LIFX lights",
   "main": "lifx-control.js",
   "scripts": {
