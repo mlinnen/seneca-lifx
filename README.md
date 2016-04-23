@@ -36,9 +36,15 @@ function lighton() {
         seneca.act({role: 'lifx', cmd: 'light_on', id: id}, function(err,result){
             if (err) return console.error(err)
             console.log(result);
-            process.exit(1);
+            // Give the plugin time to send the command to the light before shutting down the process
+            setTimeout(exit, 3000);
         });
     });
+}
+
+function exit()
+{
+    process.exit(1);
 }
 
 // Give the plugin time to initialize the communications to the LIFX lights before doing something with the lights.

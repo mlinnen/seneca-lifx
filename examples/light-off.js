@@ -1,3 +1,5 @@
+// This example is a standalone example that will call the lifx:lights command and then turn off the first light that comes back in the array
+
 var seneca = require('seneca')();
 seneca.use('../lifx-control');
 
@@ -16,11 +18,17 @@ function lightoff() {
         seneca.act({role: 'lifx', cmd: 'light_off', id: id}, function(err,result){
             if (err) return console.error(err)
             console.log(result);
-            process.exit(1);
+            // Give the plugin time to send the command to the light before shutting down the process
+            setTimeout(exit, 3000);
         });
     });
 
     
+}
+
+function exit()
+{
+    process.exit(1);
 }
 
 // Give the plugin time to initialize the communications to the LIFX lights before doing something with the lights.
