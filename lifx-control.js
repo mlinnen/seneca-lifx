@@ -49,7 +49,7 @@ module.exports = function lifx(options) {
             data.push({ id: lights[i].id, ip: lights[i].address, name: lights[i].label, status: lights[i].status });
         }
         
-        // kick off the async series loop since the light.getState is an async operation and we need to collect the results of this befor returning
+        // kick off the async series loop since the light.getState is an async operation and we need to collect the results of this before returning
         series(lights.shift());
 
         function series(light) {
@@ -72,7 +72,7 @@ module.exports = function lifx(options) {
             }
         }
         function final() {
-            console.log('done ', data);
+            seneca.log.debug('done ', data);
             respond(null, { answer: data });
         }
     });
