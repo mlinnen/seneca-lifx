@@ -7,13 +7,13 @@ module.exports = function lifx(options) {
 
     var client = new LifxClient();
     client.on('light-new', function(light) {
-        console.log('discovered light id=' + light.id + ' label=' + light.label);
+        seneca.log.info('discovered light id=' + light.id + ' label=' + light.label);
     });
     client.on('light-online', function(light) {
-        console.log('online light id=' + light.id + ' label=' + light.label);
+        seneca.log.info('online light id=' + light.id + ' label=' + light.label);
     });
     client.on('light-offline', function(light) {
-        console.log('offline light id=' + light.id + ' label=' + light.label);
+        seneca.log.info('offline light id=' + light.id + ' label=' + light.label);
     });
 
     client.init({
@@ -24,6 +24,7 @@ module.exports = function lifx(options) {
         var light = client.light(msg.id);
         if (light) {
             light.on();
+            seneca.log.info('LIFX Light id=' + light.id + ' label=' + light.label + ' was turned on');
             respond(null, { answer: 'ok' });
         }
         else
@@ -34,6 +35,7 @@ module.exports = function lifx(options) {
         var light = client.light(msg.id);
         if (light) {
             light.off();
+            seneca.log.info('LIFX Light id=' + light.id + ' label=' + light.label + ' was turned off');
             respond(null, { answer: 'ok' });
         }
         else
