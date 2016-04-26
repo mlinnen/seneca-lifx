@@ -64,10 +64,18 @@ Turns on a light.
 Turns off a light.
 - _id_: This can be the IP, LIFX Unique ID, or the name of the light
 
+### ACTION: role:lifx, cmd:color, id:d073d511b1fd
+Changes the color of a light.
+- _id_: This can be the IP, LIFX Unique ID, or the name of the light
+- _hue_: This is the hue setting of the light (0-360)
+- _saturation_: This is the saturation setting of the light (0%-100%)
+- _brightness_: This is the brightness setting of the light (0% - 100%)
+- _kelvin_: Optional setting for the color temperature (2500 - 9000)
+- _duration_: Optional setting to fade the color over time to the new setting (milliseconds)
+
 ## Roadmap
 These are a few items I think this module could use to make it more useful.  I don't have any plans on
 when the following will be done or in what order.
-- Add support for setting the color of the lights
 - Track the up/down time of a LIFX bulb
 - Add support for setting the label of a LIFX bulb
 - Add unit tests and enable the Travis CI tests and code coverage

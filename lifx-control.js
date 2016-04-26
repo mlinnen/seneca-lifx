@@ -76,6 +76,18 @@ module.exports = function lifx(options) {
             respond(null, { answer: data });
         }
     });
+    
+    this.add({ role: role, cmd: 'color' }, function color(msg, respond) {
+        var light = client.light(msg.id);
+        if (light) {
+            light.color(msg.hue,msg.saturation,msg.brightness,msg.kelvin,msg.duration);
+            seneca.log.info('LIFX Light id=' + light.id + ' label=' + light.label + ' changed color');
+            respond(null, { answer: 'ok' });
+        }
+        else
+            respond(null, { answer: 'not found' });
+    });
+
 
     return {
         name: role
